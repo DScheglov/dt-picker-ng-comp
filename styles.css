@@ -25,6 +25,7 @@
     text-align: center;
     white-space: nowrap; }
   .dt-picker-ng-comp input, .dt-picker-ng-comp select {
+    padding: 2px;
     font-family: Helvetica;
     font-size: 12px;
     border: none;
