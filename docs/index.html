@@ -12,9 +12,10 @@
   <link rel="stylesheet" href="bower_components/dt-picker-ng-comp/styles.css"/>
 
   <style>
-    input {
+    input.dateInput {
       padding: 10px;
       border: 1px soled #cfcfcf;
+      margin-bottom: 10px;
     }
   </style>
 
@@ -46,8 +47,7 @@
 
 </head>
 <body ng-app="app" ng-controller="MainCtrl as $ctrl" style="padding: 20px">
-  <input ng-model="$ctrl.date|mform:'DD MMMM YYYY, HH:mm'">
-  <p>&nbsp;</p>
+  <input class="dateInput" ng-model="$ctrl.date|mform:'DD MMMM YYYY, HH:mm'">
   <date-time-picker
     cancel-text="'Отменить'"
     value="$ctrl.date"
