@@ -10,31 +10,13 @@ class DtPickerCalendar
     dateFormat: '<'
 
   @template: """
-    <div class="calendar-month-switcher">
-      <div class="calendar-month-back-button" ng-click="$ctrl.incMonth(-1)">&lt;</div>
-      <div class="calendar-month-name">{{ $ctrl.moment.format($ctrl.monthYearFormat)}}</div>
-      <div class="calendar-month-back-button" ng-click="$ctrl.incMonth(1)">&gt;</div>
-    </div>
-    <div class="calendar-week">
-    </div>
-    <div class="calendar-table">
-      <table>
-        <tr ng-repeat="week in $ctrl.weeks track by $index">
-          <td ng-repeat="day in week track by $index"
-              ng-class="day.current"
-              ng-click="day.date && $ctrl.update(day.date)">
-            {{day.number || "&nbsp;"}}
-          </td>
-          <!--dt-picker-calendar-cell
-            ng-repeat="day in week" day="{{day}}"
-          ></dt-picker-calendar-cell-->
-        </tr>
-      </table>
-    </div>
+    #include('./build/dtp-calendar.html')
   """
 
   constructor: (moment)->
     @_moment = moment
+    m = moment( '2017-03-19', 'YYYY-MM-DD' )
+    @weekdays = ( m.add(1, 'd').format('dd') for i in [0..7] )
 
   $onInit: () ->
     dummy = () ->
@@ -42,16 +24,19 @@ class DtPickerCalendar
     @date = new Date( @value.getFullYear(), @value.getMonth(), @value.getDate() )
     @moment = @_moment(@date)
     @current = new Date( @date )
-    @monthYearFormat = /[^dmshqDeEwWaAkSxXzZo]+/.exec(@dateFormat)[0]
+    @monthYearFormat = /[^dmshqDeEwWaAkSxXzZo]+/
+      .exec(@dateFormat)[0]
+      .replace(/(^\s+)|(\s+$)/g, '')
     @initWeeks()
 
   $onChanges: ()-> @$onInit()
 
   initWeeks: () ->
     @moment = @_moment(@date)
+    @monthName = @moment.format(@monthYearFormat)
     d = new Date(@date)
     dayOfWeek = ( d.getDay() + 6) % 7
-    week = ( { date: null, number: 0 } for j in [0..dayOfWeek-1] )
+    week = ( { date: null, number: 0, status: 'external' } for j in [0..dayOfWeek-1] )
     @weeks = [ week ]
     maxDays = @moment.daysInMonth()
     for i in [1..maxDays]
@@ -60,13 +45,15 @@ class DtPickerCalendar
       week[ dayOfWeek ] =
         date: new Date(d)
         number: d.getDate()
-        current: ( if d.valueOf() == @current.valueOf() then 'active' else '' )
+        status: ( if d.valueOf() == @current.valueOf() then 'current' else 'internal' )
       if dayOfWeek is 6 and i < maxDays
         week = [ ]
         @weeks.push( week )
-    @weeks[@weeks.length - 1] = week.concat(
-      ( { date: null, number: 0 } for j in [ (dayOfWeek+1)..6] )
-    )
+    if dayOfWeek < 6
+      @weeks[@weeks.length - 1] = week.concat(
+        ( { date: null, number: 0, status: 'external' } for j in [ (dayOfWeek+1)..6] )
+      )
+    return @weeks;
 
   incMonth: (delta) ->
     @date.setMonth(@date.getMonth() + delta)

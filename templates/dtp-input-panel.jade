@@ -1,0 +1,12 @@
+.dt-picker-input-panel.row
+  .dt-date.input-group
+    select(ng-model='$ctrl.date', ng-change="$ctrl.change(\'Date\')", ng-options='(d<10?"0"+d:d) for d in $ctrl.days track by d')
+    |  /&nbsp;
+    select(ng-model='$ctrl.month', ng-change="$ctrl.change(\'Month\')", ng-options='m for m in $ctrl.months track by m')
+    |  /&nbsp;
+    input.col-3(ng-model='$ctrl.fullyear', ng-change="$ctrl.change(\'FullYear\')")
+  .dt-time.input-group
+    select(ng-model='$ctrl.hours', ng-change="$ctrl.change(\'Hours\')", ng-options='(h<10?"0"+h:h) for h in $ctrl.allHours track by h')
+    | &nbsp;:&nbsp;
+    select(ng-model='$ctrl.minutes', ng-change="$ctrl.change(\'Minutes\')", ng-options='(m<10?"0"+m:m) for m in $ctrl.allMinutes track by m')
+  

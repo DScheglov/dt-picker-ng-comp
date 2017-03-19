@@ -4,20 +4,12 @@
   <meta charset="UTF-8">
   <title>Example - DateTimePicker</title>
 
-
-  <script src="bower_components/angular/angular.min.js"></script>
+  <script src="https://code.angularjs.org/snapshot/angular.min.js"></script>
 
   <script src="bower_components/moment/moment.js"></script>
   <script src="bower_components/moment/locale/ru.js"></script>
-
-  <script src="dist/index.js"></script>
-
-  <style>
-    td.active {
-      background-color: silver;
-      color: white;
-    }
-  </style>
+  <script src="bower_components/dt-picker-ng-comp/index.js">
+  <link rel="stylesheet" href="bower_components/dt-picker-ng-comp/styles.css"/>
 
   <script id="main">
   'use strict';
@@ -27,23 +19,23 @@
       .module('app', ['dateTimePickerNgComponent'])
       .controller('MainCtrl', function MainCtrl() {
         var ctrl = this;
-        ctrl.showPicker = true;
+        ctrl.showPicker = false;
         ctrl.togglePicker = function() { ctrl.showPicker = !ctrl.showPicker; }
-        ctrl.reset = function () { ctrl.date = new Date(1979, 11, 15); }
+        ctrl.reset = function () { ctrl.date = new Date(2014, 8, 8); }
         ctrl.update = function (val) { ctrl.date = new Date (val) }
         ctrl.reset();
       });
   })(window.angular)
   </script>
 
-
-
 </head>
-<body ng-app="app" ng-controller="MainCtrl as $ctrl">
+<body ng-app="app" ng-controller="MainCtrl as $ctrl" style="padding: 20px">
   <h2 ng-click="$ctrl.togglePicker()">Birthday: {{ $ctrl.date }} <button ng-click="$ctrl.reset()">Reset</button></h2>
   <date-time-picker
+    cancel-text1="'Отменить'"
     value="$ctrl.date"
     visible="$ctrl.showPicker"
+    always-visible="true"
     on-change="$ctrl.update"
     ></date-time-picker>
 </body>

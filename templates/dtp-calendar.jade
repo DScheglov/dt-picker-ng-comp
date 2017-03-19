@@ -1,0 +1,19 @@
+.date-time-picker-calendar
+  .calendar-month-switcher
+    .calendar-month-button
+      a.btn(ng-click='$ctrl.incMonth(-1)' href="javascript:void(0)") &lsaquo;
+    .calendar-month-name {{ $ctrl.monthName|cap }}
+    .calendar-month-button
+      a.btn(ng-click='$ctrl.incMonth(1)' href="javascript:void(0)") &rsaquo;
+  .calendar-week
+    span.week-day-header(ng-repeat='dd in $ctrl.weekdays track by $index')
+      | {{dd|cap}}
+  .calendar-table
+    table
+      tr(ng-repeat='week in $ctrl.weeks track by $index')
+        td(ng-repeat='day in week track by $index')
+          span(ng-switch='day.status')
+            span(ng-switch-when='external') &nbsp;
+            button(ng-switch-when='internal', ng-click='$ctrl.update(day.date)')
+              | {{day.number}}
+            span.active(ng-switch-when='current') {{day.number}}

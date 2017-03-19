@@ -6,32 +6,18 @@ class DateTimePicker
   @bindings:
     value: '<'
     dateFormat: '<'
-    timeFormat: '<'
+    minuteStep: '<'
+    cancelText: '<'
+    acceptText: '<'
     visible: '<'
+    alwaysVisible: '<'
     onOpen: '<'
     onHide: '<'
     onChange: '<'
 
-  @template: '''
-    <div class="dt-picker-ng-comp" ng-show="$ctrl.visible">
-      <dt-picker-input-panel
-        value="$ctrl.value"
-        date-format="$ctrl.dateFormat"
-        on-update="$ctrl.binded.update">
-      </dt-picker-input-panel>
-
-      <dt-picker-calendar
-        value="$ctrl.value"
-        date-format="$ctrl.dateFormat"
-        on-update="$ctrl.binded.update"
-      ></dt-picker-calendar>
-
-      <dt-picker-button-panel
-        on-cancel="$ctrl.binded.cancel"
-        on-accept="$ctrl.binded.accept">
-      </dt-picker-button>
-    </div>
-  '''
+  @template: """
+    #include('./build/date-time-picker.html')
+  """
 
   constructor: () ->
     @binded =
@@ -41,6 +27,7 @@ class DateTimePicker
 
   $onInit: () ->
     dummy = () ->
+    @alwaysVisible = true if not @alwaysVisible?
     @onOpen =  dummy if typeof(@onOpen) isnt "function"
     @onHide = dummy if typeof(@onHide) isnt "function"
     @onChange = dummy if typeof(@onChange) isnt "function"
@@ -49,11 +36,12 @@ class DateTimePicker
     @timeFormat = @timeFormat || "HH:mm"
     @prevValue = @value && new Date(@value)
     @update(@prevValue || new Date())
+    @show() if @alwaysVisible or @visible
 
   $onChanges: () -> @$onInit()
 
   update: (val) ->
-    @value = new Date (val || @value)
+    @value = val? && new Date (val) || @value
 
   show: () ->
     @visible = true

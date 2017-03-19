@@ -1,0 +1,4 @@
+.dt-picker-ng-comp(ng-show='$ctrl.alwaysVisible||$ctrl.visible')
+  dt-picker-input-panel(value='$ctrl.value', date-format='$ctrl.dateFormat', on-update='$ctrl.binded.update' minute-step="$ctrl.minuteStep")
+  dt-picker-calendar(value='$ctrl.value', date-format='$ctrl.dateFormat', on-update='$ctrl.binded.update')
+  dt-picker-button-panel(on-cancel='$ctrl.binded.cancel', on-accept='$ctrl.binded.accept' cancel-text="$ctrl.cancelText" accept-text="$ctrl.acceptText")
