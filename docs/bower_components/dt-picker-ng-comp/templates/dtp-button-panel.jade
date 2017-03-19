@@ -1,0 +1,7 @@
+.dt-picker-button-panel
+  .cancel-button
+    button.dt-picker-btn-cancel(ng-class='$ctrl.cancelButtonClass', ng-click='$ctrl.onCancel()')
+      | {{$ctrl.cancelText||"Cancel"}}
+  .accept-button
+    button.dt-picker-btn-accept(ng-class='$ctrl.acceptButtonClass', ng-click='$ctrl.onAccept()')
+      | {{$ctrl.acceptText||'&#10004;'}}

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Example - DateTimePicker</title>
+
+  <script src="https://code.angularjs.org/snapshot/angular.min.js"></script>
+
+  <script src="bower_components/moment/moment.js"></script>
+  <script src="bower_components/moment/locale/ru.js"></script>
+  <script src="bower_components/dt-picker-ng-comp/index.js"></script>
+  <link rel="stylesheet" href="bower_components/dt-picker-ng-comp/styles.css"/>
+
+  <style>
+    input {
+      padding: 10px;
+      border: 1px soled #cfcfcf;
+    }
+  </style>
+
+  <script id="main">
+  'use strict';
+
+  (function (angular) {
+
+    angular
+      .module('momentFilters', [])
+      .filter('mform', function () {
+        return function(input, format) { return moment(new Date(input)).format(format) }
+      });
+
+    angular
+      .module('app', ['dateTimePickerNgComponent', 'momentFilters'])
+      .controller('MainCtrl', ['mformFilter', function MainCtrl(momentFormatFilter) {
+        var ctrl = this;
+        ctrl.showPicker = false;
+        ctrl.togglePicker = function() { ctrl.showPicker = !ctrl.showPicker; }
+        ctrl.reset = function () { ctrl.date = new Date(2014, 8, 8); }
+        ctrl.update = function (val) { ctrl.date = new Date (val) }
+        ctrl.reset();
+      }]);
+
+
+  })(window.angular)
+  </script>
+
+</head>
+<body ng-app="app" ng-controller="MainCtrl as $ctrl" style="padding: 20px">
+  <input ng-model="$ctrl.date|mform:'DD MMMM YYYY, HH:mm'">
+  <p>&nbsp;</p>
+  <date-time-picker
+    cancel-text="'Отменить'"
+    value="$ctrl.date"
+    visible="$ctrl.showPicker"
+    always-visible="true"
+    on-change="$ctrl.update"
+    ></date-time-picker>
+</body>
+</html>
