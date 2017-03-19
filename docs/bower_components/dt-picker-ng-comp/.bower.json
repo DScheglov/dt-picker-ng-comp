@@ -24,11 +24,11 @@
   "dependencies": {
     "moment": "~2.17.1"
   },
-  "_release": "06caa7def0",
+  "_release": "56df160e88",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "06caa7def02e55a3cbceed5188204aa664d3b979"
+    "commit": "56df160e88894ca955074778c9d24f4ddf318cd3"
   },
   "_source": "https://github.com/DScheglov/dt-picker-ng-comp.git",
   "_target": "*",
